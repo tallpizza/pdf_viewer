@@ -70,13 +70,20 @@ export default function Sample() {
             options={options}
           >
             {Array.from(new Array(numPages), (el, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                width={
-                  containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-                }
-              />
+              <div key={`page_container_${index + 1}`}>
+                <p className="mt-3 mb-1 text-white text-[14px] lg:text-[18px]">
+                  p{index + 1}
+                </p>
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  width={
+                    containerWidth
+                      ? Math.min(containerWidth, maxWidth)
+                      : maxWidth
+                  }
+                />
+              </div>
             ))}
           </Document>
         </div>
