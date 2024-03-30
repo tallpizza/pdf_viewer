@@ -36,8 +36,8 @@ body {
 
 .Example__container__document {
   width: 100%;
-  max-width: calc(100% - 2em);
-  margin: 1em 0;
+  /* max-width: calc(100% - 2em); */
+  /* margin: 1em 0; */
 }
 
 .Example__container__document .react-pdf__Document {

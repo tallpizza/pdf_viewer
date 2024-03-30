@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { useResizeObserver } from "@wojtekmaj/react-hooks";
+import { useMemo, useState } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -12,17 +11,11 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const resizeObserverOptions = {};
-
-const maxWidth = 800;
-
 type PDFFile = string | File | null;
 
 export default function Sample() {
   const [file, setFile] = useState<PDFFile>("");
   const [numPages, setNumPages] = useState<number>();
-  const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>();
 
   const options = useMemo(
     () => ({
@@ -31,16 +24,6 @@ export default function Sample() {
     }),
     []
   );
-
-  const onResize = useCallback<ResizeObserverCallback>((entries) => {
-    const [entry] = entries;
-
-    if (entry) {
-      setContainerWidth(entry.contentRect.width);
-    }
-  }, []);
-
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { files } = event.target;
@@ -60,10 +43,9 @@ export default function Sample() {
     <div className="Example">
       <div className="Example__container">
         <div className="Example__container__load">
-          {/* <label htmlFor="file">Load from file:</label> */}
-          <input onChange={onFileChange} type="file" />
+          <input onChange={onFileChange} type="file" accept="application/pdf" />
         </div>
-        <div className="Example__container__document" ref={setContainerRef}>
+        <div className="Example__container__document">
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -74,15 +56,7 @@ export default function Sample() {
                 <p className="mt-3 mb-1 text-white text-[14px] lg:text-[18px]">
                   p{index + 1}
                 </p>
-                <Page
-                  key={`page_${index + 1}`}
-                  pageNumber={index + 1}
-                  width={
-                    containerWidth
-                      ? Math.min(containerWidth, maxWidth)
-                      : maxWidth
-                  }
-                />
+                <Page key={`page_${index + 1}`} pageNumber={index + 1} />
               </div>
             ))}
           </Document>
