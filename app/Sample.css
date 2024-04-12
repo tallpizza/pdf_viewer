@@ -9,16 +9,17 @@ body {
   font: inherit;
 }
 
-.Example header {
-  background-color: #323639;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  color: white;
-}
-
-.Example header h1 {
-  font-size: inherit;
-  margin: 0;
+.Example__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Dark background for visibility */
+  color: white; /* White text color */
+  text-align: center;
+  z-index: 1000;
+  padding: 0.3em 0;
+  font-size: x-small;
 }
 
 .Example__container {
@@ -27,6 +28,11 @@ body {
   align-items: center;
   margin: 10px 0;
   padding: 10px;
+}
+
+.page-top-marker {
+  /* height: 1px; */
+  width: 100%;
 }
 
 .Example__container__load {
