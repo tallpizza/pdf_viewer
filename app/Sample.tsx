@@ -23,6 +23,7 @@ export default function Sample() {
     }),
     []
   );
+
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -61,28 +62,15 @@ export default function Sample() {
       observers.forEach((observer) => observer.disconnect());
     };
   }, [numPages]);
-  function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const { files } = event.target;
-    if (files && files[0]) {
-      setFile(files[0] || null);
-    }
-  }
-
-  function onDocumentLoadSuccess({
-    numPages: nextNumPages,
-  }: PDFDocumentProxy): void {
-    setNumPages(nextNumPages);
-    pageRefs.current = Array(nextNumPages).fill(null); // Reset refs
-  }
 
   return (
-    <div className="Example">
-      <div className="Example__header">{min(currentPage) + "/" + numPages}</div>
-      <div className="Example__container">
-        <div className="Example__container__load">
+    <div>
+      <div className="header">{min(currentPage) + "/" + numPages}</div>
+      <div className="container">
+        <div className="container__load">
           <input onChange={onFileChange} type="file" accept="application/pdf" />
         </div>
-        <div className="Example__container__document">
+        <div className="container__document">
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -104,6 +92,20 @@ export default function Sample() {
       </div>
     </div>
   );
+
+  function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    const { files } = event.target;
+    if (files && files[0]) {
+      setFile(files[0] || null);
+    }
+  }
+
+  function onDocumentLoadSuccess({
+    numPages: nextNumPages,
+  }: PDFDocumentProxy): void {
+    setNumPages(nextNumPages);
+    pageRefs.current = Array(nextNumPages).fill(null); // Reset refs
+  }
 }
 
 function min(a: number[]): number {

@@ -4,12 +4,11 @@ body {
   font-family: Segoe UI, Tahoma, sans-serif;
 }
 
-.Example input,
-.Example button {
+button {
   font: inherit;
 }
 
-.Example__header {
+.header {
   position: fixed;
   top: 0;
   left: 0;
@@ -22,7 +21,7 @@ body {
   font-size: x-small;
 }
 
-.Example__container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,29 +34,29 @@ body {
   width: 100%;
 }
 
-.Example__container__load {
+.container__load {
   margin-top: 1em;
   color: white;
 }
 
-.Example__container__document {
+.container__document {
   width: 100%;
   /* max-width: calc(100% - 2em); */
   /* margin: 1em 0; */
 }
 
-.Example__container__document .react-pdf__Document {
+.container__document .react-pdf__Document {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.Example__container__document .react-pdf__Page {
+.container__document .react-pdf__Page {
   /* margin: 1em 0; */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
-.Example__container__document .react-pdf__message {
+.container__document .react-pdf__message {
   padding: 20px;
   color: white;
 }
