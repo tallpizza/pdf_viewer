@@ -42,7 +42,7 @@ button {
 .container__document {
   width: 100%;
   /* max-width: calc(100% - 2em); */
-  /* margin: 1em 0; */
+  margin: 1em 0;
 }
 
 .container__document .react-pdf__Document {
@@ -52,7 +52,7 @@ button {
 }
 
 .container__document .react-pdf__Page {
-  /* margin: 1em 0; */
+  margin: 10px 0;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 

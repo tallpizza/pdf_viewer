@@ -8,10 +8,10 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-type PDFFile = string | File | null;
+type PDFFile = File | null;
 
 export default function Sample() {
-  const [file, setFile] = useState<PDFFile>("");
+  const [file, setFile] = useState<PDFFile>();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number[]>([]);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -62,6 +62,29 @@ export default function Sample() {
       observers.forEach((observer) => observer.disconnect());
     };
   }, [numPages]);
+
+  useEffect(() => {
+    if (currentPage.length === 0) {
+      return;
+    }
+
+    const topPage = min(currentPage);
+    const fileName = file?.name;
+    if (fileName) {
+      localStorage.setItem(fileName, topPage.toString());
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (numPages > 0 && file && file.name && localStorage.getItem(file.name)) {
+      const storedPage = Number(localStorage.getItem(file.name));
+      setTimeout(() => {
+        if (confirm("최근 읽은 페이지로 이동하시겠습니까?")) {
+          pageRefs.current[storedPage - 1]?.scrollIntoView();
+        }
+      }, 300);
+    }
+  }, [numPages, file]);
 
   return (
     <div>
