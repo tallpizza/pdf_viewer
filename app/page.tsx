@@ -87,13 +87,13 @@ export default function DefaultPage() {
   }, [numPages, file]);
 
   return (
-    <div>
+    <div className="w-full">
       <div className="header">{min(currentPage) + "/" + numPages}</div>
-      <div className="container">
-        <div className="container__load">
+      <div className="document">
+        <div className="document__load">
           <input onChange={onFileChange} type="file" accept="application/pdf" />
         </div>
-        <div className="container__document">
+        <div className="document__main">
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -101,7 +101,7 @@ export default function DefaultPage() {
           >
             {Array.from(new Array(numPages), (el, index) => (
               <div
-                key={`page_container_${index + 1}`}
+                key={`page_document_${index + 1}`}
                 ref={(el) => (pageRefs.current[index] = el)}
                 data-page-number={index + 1}
               >

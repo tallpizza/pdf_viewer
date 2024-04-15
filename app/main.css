@@ -21,7 +21,8 @@ button {
   font-size: x-small;
 }
 
-.container {
+.document {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,29 +35,29 @@ button {
   width: 100%;
 }
 
-.container__load {
+.document__load {
   margin-top: 1em;
   color: white;
 }
 
-.container__document {
+.document__main {
   width: 100%;
   /* max-width: calc(100% - 2em); */
   margin: 1em 0;
 }
 
-.container__document .react-pdf__Document {
+.document__main .react-pdf__Document {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.container__document .react-pdf__Page {
+.document__main .react-pdf__Page {
   margin: 10px 0;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
-.container__document .react-pdf__message {
+.document__main .react-pdf__message {
   padding: 20px;
   color: white;
 }
