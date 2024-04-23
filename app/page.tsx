@@ -5,6 +5,8 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./main.css";
 import type { PDFDocumentProxy } from "pdfjs-dist";
+import { ZoomIn, ZoomOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -15,6 +17,7 @@ export default function DefaultPage() {
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number[]>([]);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [scale, setScale] = useState<number>();
 
   const options = useMemo(
     () => ({
@@ -78,18 +81,41 @@ export default function DefaultPage() {
   useEffect(() => {
     if (numPages > 0 && file && file.name && localStorage.getItem(file.name)) {
       const storedPage = Number(localStorage.getItem(file.name));
+      if (storedPage === 0 || storedPage == 1) {
+        return;
+      }
+
       setTimeout(() => {
         if (confirm("최근 읽은 페이지로 이동하시겠습니까?")) {
           pageRefs.current[storedPage - 1]?.scrollIntoView();
         }
       }, 300);
     }
+
+    const storedScale = localStorage.getItem("scale");
+    if (storedScale) {
+      setScale(Number(storedScale));
+    }
   }, [numPages, file]);
+
+  useEffect(() => {
+    if (scale) {
+      localStorage.setItem("scale", scale.toString());
+    }
+  }, [scale]);
 
   return (
     <div className="w-full">
-      <div className="header">{min(currentPage) + "/" + numPages}</div>
-      <div className="document">
+      <div className="flex items-center justify-center gap-2 fixed top-0 left-0 w-full bg-[#333] text-white text-center py-2 h-[30px] md:h-[50px] font-medium z-10">
+        {min(currentPage) + "/" + numPages}
+        <Button variant="ghost" size="icon" onClick={zoomIn}>
+          <ZoomIn className="h-5 w-5" />
+        </Button>
+        <Button variant="ghost" size="icon" onClick={zoomOut}>
+          <ZoomOut className="h-5 w-5" />
+        </Button>
+      </div>
+      <div className=" w-full flex flex-col items-center mt-[30px] md:mt-[50px] p-3">
         <div className="document__load">
           <input onChange={onFileChange} type="file" accept="application/pdf" />
         </div>
@@ -106,7 +132,11 @@ export default function DefaultPage() {
                 data-page-number={index + 1}
               >
                 <div className="page-top-marker" data-page-number={index + 1}>
-                  <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    scale={scale}
+                  />
                 </div>
               </div>
             ))}
@@ -115,6 +145,21 @@ export default function DefaultPage() {
       </div>
     </div>
   );
+  function zoomIn() {
+    if (!scale) {
+      setScale(1);
+      return;
+    }
+    setScale(scale * 1.1); // 확대
+  }
+
+  function zoomOut() {
+    if (!scale) {
+      setScale(1);
+      return;
+    }
+    setScale(scale / 1.1); // 축소
+  }
 
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { files } = event.target;
