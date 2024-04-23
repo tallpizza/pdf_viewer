@@ -7,6 +7,7 @@ import "./main.css";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import { Columns2, PanelLeft, PanelRight, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SearchPopover } from "@/components/searchPopup";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -119,6 +120,7 @@ export default function DefaultPage() {
   return (
     <div className="w-full">
       <div className="flex items-center justify-center gap-2 fixed top-0 left-0 w-full bg-[#333] text-white text-center py-2 h-[50px] font-medium z-10">
+        <SearchPopover />
         <div className="flex-1 flex items-center justify-center gap-2">
           <div>{min(currentPage) + "/" + numPages}</div>
           <div className="flex">

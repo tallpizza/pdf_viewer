@@ -8,6 +8,13 @@ button {
   font: inherit;
 }
 
+.current-match-highlight {
+  background-color: #ffff00aa !important;
+}
+.match {
+  background-color: #33333333;
+}
+
 .page-top-marker {
   /* height: 1px; */
   width: 100%;
