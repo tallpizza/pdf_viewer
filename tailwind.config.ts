@@ -9,6 +9,7 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  safelist: ["items-center", "items-end", "items-start"], // 항상 포함시킬 클래스명을 배열 형태로 추가
   prefix: "",
   theme: {
     container: {

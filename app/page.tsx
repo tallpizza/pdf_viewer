@@ -5,7 +5,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./main.css";
 import type { PDFDocumentProxy } from "pdfjs-dist";
-import { ZoomIn, ZoomOut } from "lucide-react";
+import { Columns2, PanelLeft, PanelRight, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -18,6 +18,7 @@ export default function DefaultPage() {
   const [currentPage, setCurrentPage] = useState<number[]>([]);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [scale, setScale] = useState<number>();
+  const [align, setAlign] = useState<string>();
 
   const options = useMemo(
     () => ({
@@ -96,6 +97,11 @@ export default function DefaultPage() {
     if (storedScale) {
       setScale(Number(storedScale));
     }
+
+    const storedAlign = localStorage.getItem("align");
+    if (storedAlign) {
+      setAlign(storedAlign);
+    }
   }, [numPages, file]);
 
   useEffect(() => {
@@ -104,16 +110,41 @@ export default function DefaultPage() {
     }
   }, [scale]);
 
+  useEffect(() => {
+    if (align) {
+      localStorage.setItem("align", align);
+    }
+  }, [align]);
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-center gap-2 fixed top-0 left-0 w-full bg-[#333] text-white text-center py-2 h-[30px] md:h-[50px] font-medium z-10">
-        {min(currentPage) + "/" + numPages}
-        <Button variant="ghost" size="icon" onClick={zoomIn}>
-          <ZoomIn className="h-5 w-5" />
-        </Button>
-        <Button variant="ghost" size="icon" onClick={zoomOut}>
-          <ZoomOut className="h-5 w-5" />
-        </Button>
+        <div className="flex-1 flex items-center justify-center gap-2">
+          <div>{min(currentPage) + "/" + numPages}</div>
+          <div className="flex">
+            <Button variant="ghost" size="icon" onClick={zoomIn}>
+              <ZoomIn className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={zoomOut}>
+              <ZoomOut className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+        <div className="flex">
+          <Button variant="ghost" size="icon" onClick={() => setAlign("start")}>
+            <PanelLeft className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setAlign("center")}
+          >
+            <Columns2 className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={() => setAlign("end")}>
+            <PanelRight className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
       <div className=" w-full flex flex-col items-center mt-[30px] md:mt-[50px] p-3">
         <div className="document__load">
@@ -124,6 +155,7 @@ export default function DefaultPage() {
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
             options={options}
+            className={`items-${align} items`}
           >
             {Array.from(new Array(numPages), (el, index) => (
               <div
