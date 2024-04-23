@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "next-themes";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,14 +23,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Analytics />
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
       >
-        {children}
-      </body>
+        <body
+          className={cn(
+            "min-h-screen bg-[#525659] font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          {children}
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
