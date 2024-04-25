@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
-export function SearchPopover({ ...props }) {
+export function SearchText({ ...props }) {
   const [currentMatch, setCurrentMatch] = useState(0);
   const [totalMatches, setTotalMatches] = useState<{ page: number }[]>([]);
   const [searchText, setSearchText] = useState("");
