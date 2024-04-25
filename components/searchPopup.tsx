@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
-export function SearchPopover() {
+export function SearchPopover({ ...props }) {
   const [open, setOpen] = useState<boolean>(false);
   const [currentMatch, setCurrentMatch] = useState(0);
   const [totalMatches, setTotalMatches] = useState<{ page: number }[]>([]);
@@ -133,6 +133,7 @@ export function SearchPopover() {
             setOpen(true);
             handleSearch();
           }}
+          {...props}
         >
           <Search className="h-5 w-5" />
         </Button>
