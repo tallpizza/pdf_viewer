@@ -1,16 +1,10 @@
 // SearchPopover.tsx
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
 export function SearchPopover({ ...props }) {
-  const [open, setOpen] = useState<boolean>(false);
   const [currentMatch, setCurrentMatch] = useState(0);
   const [totalMatches, setTotalMatches] = useState<{ page: number }[]>([]);
   const [searchText, setSearchText] = useState("");
@@ -91,6 +85,9 @@ export function SearchPopover({ ...props }) {
         element.classList.remove("match", "current-match-highlight");
         element.removeAttribute("data-match-id");
       });
+    setSearchText("");
+    setCurrentMatch(0);
+    setTotalMatches([]);
   }
 
   useEffect(() => {
@@ -124,61 +121,45 @@ export function SearchPopover({ ...props }) {
   }, [currentMatch, totalMatches]);
 
   return (
-    <Popover open={open}>
-      <PopoverTrigger asChild>
+    <div className="w-80 flex items-center justify-center gap-2 p-2 h-[50px]">
+      <Input
+        type="text"
+        placeholder="검색어 입력"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={handleInputKeyDown}
+        className="flex-1 border-none outline-none text-xs h-full"
+      />
+      <div className="text-sm text-gray-500">
+        {currentMatch}/{totalMatches.length}
+      </div>
+      <div className="flex">
         <Button
+          onClick={handlePrevMatch}
+          variant="link"
+          size="icon"
+          disabled={currentMatch <= 1}
+        >
+          <ChevronLeft className="h-4 w-4 text-gray-500" />
+        </Button>
+        <Button
+          onClick={handleNextMatch}
+          disabled={currentMatch >= totalMatches.length}
           variant="ghost"
           size="icon"
-          onClick={() => {
-            setOpen(true);
-            handleSearch();
-          }}
-          {...props}
         >
-          <Search className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4 text-gray-500" />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 flex items-center justify-center gap-2">
-        <Input
-          type="text"
-          placeholder="검색어 입력"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onKeyDown={handleInputKeyDown}
-          className="flex-1 border-none outline-none text-sm"
-        />
-        <div className="text-sm text-gray-500">
-          {currentMatch}/{totalMatches.length}
-        </div>
-        <div className="flex">
-          <Button
-            onClick={handlePrevMatch}
-            variant="link"
-            size="icon"
-            disabled={currentMatch <= 1}
-          >
-            <ChevronLeft className="h-4 w-4 text-gray-500" />
-          </Button>
-          <Button
-            onClick={handleNextMatch}
-            disabled={currentMatch >= totalMatches.length}
-            variant="ghost"
-            size="icon"
-          >
-            <ChevronRight className="h-4 w-4 text-gray-500" />
-          </Button>
-          <Button
-            variant={"ghost"}
-            size="icon"
-            onClick={() => {
-              setOpen(false);
-              clear();
-            }}
-          >
-            <X className="h-4 w-4 text-gray-500" />
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+        <Button
+          variant={"ghost"}
+          size="icon"
+          onClick={() => {
+            clear();
+          }}
+        >
+          <X className="h-4 w-4 text-gray-500" />
+        </Button>
+      </div>
+    </div>
   );
 }
