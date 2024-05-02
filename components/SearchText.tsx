@@ -128,7 +128,7 @@ export function SearchText({ ...props }) {
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         onKeyDown={handleInputKeyDown}
-        className="flex-1 border-none outline-none text-xs h-full"
+        className="flex-1 border-none outline-none text-xs h-full text-black"
       />
       <div className="text-sm text-gray-500">
         {currentMatch}/{totalMatches.length}
