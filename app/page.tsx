@@ -5,7 +5,16 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./main.css";
 import type { PDFDocumentProxy } from "pdfjs-dist";
-import { Columns2, PanelLeft, PanelRight, ZoomIn, ZoomOut } from "lucide-react";
+import {
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  Columns2,
+  PanelLeft,
+  PanelRight,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchText } from "@/components/SearchText";
 
@@ -147,19 +156,36 @@ export default function DefaultPage() {
             <span>{Math.round((scale ?? 1) * 100)}%</span>
           </div>
         </div>
-        <div className="flex">
-          <Button variant="ghost" size="icon" onClick={() => setAlign("start")}>
-            <PanelLeft className="h-5 w-5" />
+        <div className="flex gap-2 mr-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`${
+              align == "start" && "bg-gray-200 text-black"
+            } w-[25px] h-[25px]`}
+            onClick={() => setAlign("start")}
+          >
+            <AlignLeft className="h-5 w-5" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
+            className={`${
+              align == "center" && "bg-gray-200 text-black"
+            } w-[25px] h-[25px]`}
             onClick={() => setAlign("center")}
           >
-            <Columns2 className="h-5 w-5" />
+            <AlignJustify className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setAlign("end")}>
-            <PanelRight className="h-5 w-5" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`${
+              align == "end" && "bg-gray-200 text-black"
+            } w-[25px] h-[25px]`}
+            onClick={() => setAlign("end")}
+          >
+            <AlignRight className="h-5 w-5" />
           </Button>
         </div>
       </div>
