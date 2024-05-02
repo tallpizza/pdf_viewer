@@ -135,15 +135,16 @@ export default function DefaultPage() {
           accept="application/pdf"
           style={{ display: "none" }}
         />
-        <div className="flex-1 flex items-center justify-center gap-2">
+        <div className="flex-1 flex items-center justify-center gap-10">
           <div>{min(currentPage) + "/" + numPages}</div>
-          <div className="flex">
-            <Button variant="ghost" size="icon" onClick={zoomIn}>
-              <ZoomIn className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={zoomOut}>
               <ZoomOut className="h-5 w-5" />
             </Button>
+            <Button variant="ghost" size="icon" onClick={zoomIn}>
+              <ZoomIn className="h-5 w-5" />
+            </Button>
+            <span>{Math.round((scale ?? 1) * 100)}%</span>
           </div>
         </div>
         <div className="flex">
@@ -195,7 +196,7 @@ export default function DefaultPage() {
       setScale(1);
       return;
     }
-    setScale(scale * 1.1); // 확대
+    setScale(scale + 0.05); // 확대
   }
 
   function zoomOut() {
@@ -203,7 +204,7 @@ export default function DefaultPage() {
       setScale(1);
       return;
     }
-    setScale(scale / 1.1); // 축소
+    setScale(scale - 0.05); // 축소
   }
 
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
