@@ -121,6 +121,20 @@ export default function DefaultPage() {
     <div className="w-full">
       <div className="flex items-center justify-center gap-2 fixed top-0 left-0 w-full bg-[#333] text-white text-center py-2 h-[50px] font-medium z-10">
         <SearchText />
+        <label
+          className="border-2 border-gray-700 shadow-sm bg-[#dfdfdf] rounded text-black px-2 py-1"
+          //@ts-ignore
+          for="input-file"
+        >
+          {!file?.name ? "파일선택" : "파일: " + file.name}
+        </label>
+        <input
+          onChange={onFileChange}
+          id="input-file"
+          type="file"
+          accept="application/pdf"
+          style={{ display: "none" }}
+        />
         <div className="flex-1 flex items-center justify-center gap-2">
           <div>{min(currentPage) + "/" + numPages}</div>
           <div className="flex">
@@ -149,9 +163,6 @@ export default function DefaultPage() {
         </div>
       </div>
       <div className=" w-full flex flex-col items-center mt-[30px] md:mt-[50px] p-3">
-        <div className="document__load">
-          <input onChange={onFileChange} type="file" accept="application/pdf" />
-        </div>
         <div className="document__main">
           <Document
             file={file}
